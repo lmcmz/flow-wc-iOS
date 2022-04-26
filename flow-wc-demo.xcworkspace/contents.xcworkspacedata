@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:WCDapp/WCDapp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:WCWallet/WCWallet.xcodeproj">
+   </FileRef>
+</Workspace>
