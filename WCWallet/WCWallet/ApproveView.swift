@@ -15,6 +15,7 @@ struct SessionInfo {
     let chains: [String]
     let methods: [String]
     let pendingRequests: [String]
+    let data: String
 }
 
 
@@ -43,6 +44,15 @@ struct ApproveView: View {
             Text(session.name).font(.title).bold()
             Text(session.dappURL).font(.body).foregroundColor(.secondary)
             Text(session.descriptionText).font(.body).foregroundColor(.gray)
+            Text(session.data).font(.body).foregroundColor(.gray)
+            
+            Label("flow", image: "flow-logo")
+            
+            Section("Methods") {
+                List(session.methods, id: \.hashValue) { method in
+                    Text(method).font(.body).foregroundColor(.gray)
+                }
+            }.headerProminence(.increased)
             
             Spacer()
             HStack(alignment: .center, spacing: 12) {
@@ -80,9 +90,10 @@ struct ApproveView_Previews: PreviewProvider {
                                          descriptionText: "descriptionText",
                                          dappURL: "https://test.com",
                                          iconURL: "https://github.com/Outblock/Assets/blob/main/blockchain/flow/info/logo.png?raw=true",
-                                         chains: [],
-                                         methods: [],
-                                         pendingRequests: []),
+                                         chains: ["flow"],
+                                         methods: ["method_1", "method_2"],
+                                         pendingRequests: [],
+                                        data: ""),
                     approve: nil,
                     reject: nil
         )

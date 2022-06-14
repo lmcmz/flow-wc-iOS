@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15015AD8284D14EF00400718 /* WalletConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 15015AD7284D14EF00400718 /* WalletConnect */; };
 		1563664A27CA5FFA00E19653 /* WCWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563664927CA5FFA00E19653 /* WCWalletApp.swift */; };
 		1563664C27CA5FFA00E19653 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563664B27CA5FFA00E19653 /* ContentView.swift */; };
 		1563664E27CA5FFA00E19653 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1563664D27CA5FFA00E19653 /* Assets.xcassets */; };
 		1563665127CA5FFA00E19653 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1563665027CA5FFA00E19653 /* Preview Assets.xcassets */; };
-		1563667627CA604200E19653 /* WalletConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 1563667527CA604200E19653 /* WalletConnect */; };
 		1563667827CA632100E19653 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563667727CA632100E19653 /* ViewModel.swift */; };
 		1563667A27CA83D900E19653 /* ScanQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563667927CA83D900E19653 /* ScanQRView.swift */; };
 		1563668327CBA9A100E19653 /* ApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563668227CBA9A100E19653 /* ApproveView.swift */; };
 		1563668527CBB45100E19653 /* RequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563668427CBB45100E19653 /* RequestView.swift */; };
+		1568F4F6284E59A50031A071 /* FlowWalletCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568F4F5284E59A50031A071 /* FlowWalletCore.swift */; };
+		1568F4F9284E59CF0031A071 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = 1568F4F8284E59CF0031A071 /* Flow */; };
+		1568F4FB284E5C780031A071 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568F4FA284E5C780031A071 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,8 @@
 		1563667B27CB58A200E19653 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1563668227CBA9A100E19653 /* ApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveView.swift; sourceTree = "<group>"; };
 		1563668427CBB45100E19653 /* RequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestView.swift; sourceTree = "<group>"; };
+		1568F4F5284E59A50031A071 /* FlowWalletCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowWalletCore.swift; sourceTree = "<group>"; };
+		1568F4FA284E5C780031A071 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1563667627CA604200E19653 /* WalletConnect in Frameworks */,
+				1568F4F9284E59CF0031A071 /* Flow in Frameworks */,
+				15015AD8284D14EF00400718 /* WalletConnect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +71,8 @@
 				1563667B27CB58A200E19653 /* Info.plist */,
 				1563664927CA5FFA00E19653 /* WCWalletApp.swift */,
 				1563667727CA632100E19653 /* ViewModel.swift */,
+				1568F4F5284E59A50031A071 /* FlowWalletCore.swift */,
+				1568F4FA284E5C780031A071 /* Util.swift */,
 				1563668427CBB45100E19653 /* RequestView.swift */,
 				1563667927CA83D900E19653 /* ScanQRView.swift */,
 				1563668227CBA9A100E19653 /* ApproveView.swift */,
@@ -100,7 +108,8 @@
 			);
 			name = WCWallet;
 			packageProductDependencies = (
-				1563667527CA604200E19653 /* WalletConnect */,
+				15015AD7284D14EF00400718 /* WalletConnect */,
+				1568F4F8284E59CF0031A071 /* Flow */,
 			);
 			productName = WCWallet;
 			productReference = 1563664627CA5FFA00E19653 /* WCWallet.app */;
@@ -131,7 +140,8 @@
 			);
 			mainGroup = 1563663D27CA5FFA00E19653;
 			packageReferences = (
-				1563667427CA604200E19653 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */,
+				15015AD6284D14EF00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */,
+				1568F4F7284E59CF0031A071 /* XCRemoteSwiftPackageReference "flow-swift" */,
 			);
 			productRefGroup = 1563664727CA5FFA00E19653 /* Products */;
 			projectDirPath = "";
@@ -160,7 +170,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1563664C27CA5FFA00E19653 /* ContentView.swift in Sources */,
+				1568F4F6284E59A50031A071 /* FlowWalletCore.swift in Sources */,
 				1563667827CA632100E19653 /* ViewModel.swift in Sources */,
+				1568F4FB284E5C780031A071 /* Util.swift in Sources */,
 				1563668527CBB45100E19653 /* RequestView.swift in Sources */,
 				1563667A27CA83D900E19653 /* ScanQRView.swift in Sources */,
 				1563668327CBA9A100E19653 /* ApproveView.swift in Sources */,
@@ -373,9 +385,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1563667427CA604200E19653 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */ = {
+		15015AD6284D14EF00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WalletConnect/WalletConnectSwiftV2";
+			requirement = {
+				kind = revision;
+				revision = 7ec5c06e5a67371398cda219a0cc9282c6541465;
+			};
+		};
+		1568F4F7284E59CF0031A071 /* XCRemoteSwiftPackageReference "flow-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/outblock/flow-swift";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -384,10 +404,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1563667527CA604200E19653 /* WalletConnect */ = {
+		15015AD7284D14EF00400718 /* WalletConnect */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1563667427CA604200E19653 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */;
+			package = 15015AD6284D14EF00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */;
 			productName = WalletConnect;
+		};
+		1568F4F8284E59CF0031A071 /* Flow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1568F4F7284E59CF0031A071 /* XCRemoteSwiftPackageReference "flow-swift" */;
+			productName = Flow;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -7,7 +7,7 @@
 
 import SwiftUI
 import UIKit
-import WalletConnect
+import WalletConnectSign
 
 //struct ScanQRView: UIViewControllerRepresentable {
 //    

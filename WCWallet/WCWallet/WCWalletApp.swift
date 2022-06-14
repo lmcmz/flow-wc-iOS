@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WalletConnectSign
 
 @main
 struct WCWalletApp: App {
@@ -14,6 +15,12 @@ struct WCWalletApp: App {
     var viewModel = ViewModel()
     
     init() {
+        let metadata = AppMetadata(
+            name: "Flow Wallet",
+            description: "wallet description",
+            url: "https://lilico.app",
+            icons: ["https://github.com/Outblock/Assets/blob/main/blockchain/flow/info/logo.png?raw=true"])
+        Sign.configure(Sign.Config(metadata: metadata, projectId: "b00f6d1baf6e7a6ea324c394932bace2"))
         viewModel.setup()
     }
     
@@ -23,6 +30,9 @@ struct WCWalletApp: App {
             .onOpenURL { url in
                 print(url)
                 self.viewModel.updateDeepLink(deepLink: url)
+            }
+            .onAppear {
+                viewModel.setup()
             }
         }
     }
