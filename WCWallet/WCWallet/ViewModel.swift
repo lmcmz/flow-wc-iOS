@@ -57,6 +57,9 @@ class ViewModel: ObservableObject {
     @Published
     var sessionItems: [ActiveSessionItem] = []
     
+    @Published
+    var activePairings: [Pairing] = []
+    
     private var publishers = [AnyCancellable]()
     
     init() {
@@ -72,6 +75,7 @@ class ViewModel: ObservableObject {
         let settledSessions = Sign.instance.getSessions()
         sessionItems = getActiveSessionItem(for: settledSessions)
         setUpAuthSubscribing()
+        reloadPairing()
     }
     
     func connect() {
@@ -103,6 +107,11 @@ class ViewModel: ObservableObject {
             self.sessionItems = activeSessions
 //            self.walletView.tableView.reloadData()
         }
+    }
+    
+    func reloadPairing() {
+        let activePairings: [Pairing] = Sign.instance.getSettledPairings()
+        self.activePairings = activePairings
     }
     
     func disconnect(_ sessionItem: ActiveSessionItem) {
@@ -178,13 +187,14 @@ extension ViewModel {
                 self?.currentProposal = sessionProposal
                 
                 let appMetadata = sessionProposal.proposer
+                let requiredNamespaces = sessionProposal.requiredNamespaces
                 let info = SessionInfo(
                     name: appMetadata.name ?? "",
                     descriptionText: appMetadata.description ?? "",
                     dappURL: appMetadata.url ?? "",
                     iconURL: appMetadata.icons.first ?? "",
-                    chains: [],
-                    methods: [],
+                    chains: requiredNamespaces["flow"]?.chains ?? [],
+                    methods: requiredNamespaces["flow"]?.methods ?? [],
                     pendingRequests: [],
                     data: "")
                 self?.currentSessionInfo = info

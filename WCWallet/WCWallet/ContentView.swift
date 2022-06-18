@@ -77,6 +77,38 @@ struct ContentView: View {
                         }
                     }
                 }
+            
+                Section("Pairing") {
+                    List {
+                        ForEach(viewModel.activePairings, id: \.topic) { pair in
+                            HStack {
+//                                AsyncImage(
+//                                    url: URL(string: pair.peer!.icons[0]),
+//                                    content: { image in
+//                                        image.resizable()
+//                                            .aspectRatio(contentMode: .fit)
+//                                            .frame(maxWidth: 35, maxHeight: 35)
+//                                    },
+//                                    placeholder: {
+//                                        ProgressView()
+//                                    }
+//                                )
+//
+                                VStack(alignment: HorizontalAlignment.leading) {
+                                    Text(pair.topic)
+                                    Text(pair.expiryDate.formatDate())
+                                        .font(.footnote)
+                                        .foregroundColor(.gray)
+                                    
+                                }
+                                Spacer()
+//                                Button("Disconnect") {
+//                                    viewModel.disconnect(item)
+//                                }
+                            }
+                        }
+                    }
+                }
             }
             .navigationTitle("Flow x WalletConnect")
         }
@@ -109,4 +141,13 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(viewModel: ViewModel())
     }
+}
+
+
+extension Date {
+        func formatDate() -> String {
+                let dateFormatter = DateFormatter()
+            dateFormatter.setLocalizedDateFormatFromTemplate("EEEE, MMM d")
+            return dateFormatter.string(from: self)
+        }
 }

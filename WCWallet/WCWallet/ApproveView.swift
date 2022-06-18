@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
+import WalletConnectSign
 
 struct SessionInfo {
     let name: String
     let descriptionText: String
     let dappURL: String
     let iconURL: String
-    let chains: [String]
-    let methods: [String]
+    let chains: Set<Blockchain>?
+    let methods: Set<String>?
     let pendingRequests: [String]
     let data: String
 }
@@ -49,7 +50,7 @@ struct ApproveView: View {
             Label("flow", image: "flow-logo")
             
             Section("Methods") {
-                List(session.methods, id: \.hashValue) { method in
+                List(Array(session.methods ?? []), id: \.hashValue) { method in
                     Text(method).font(.body).foregroundColor(.gray)
                 }
             }.headerProminence(.increased)
@@ -90,7 +91,7 @@ struct ApproveView_Previews: PreviewProvider {
                                          descriptionText: "descriptionText",
                                          dappURL: "https://test.com",
                                          iconURL: "https://github.com/Outblock/Assets/blob/main/blockchain/flow/info/logo.png?raw=true",
-                                         chains: ["flow"],
+                                         chains: Set([Blockchain("flow")!]),
                                          methods: ["method_1", "method_2"],
                                          pendingRequests: [],
                                         data: ""),
