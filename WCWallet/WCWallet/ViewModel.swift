@@ -50,9 +50,17 @@ class ViewModel: ObservableObject {
     @Published
     var showPopUp: Bool = false
     
+    @Published
+    var showRequestPopUp: Bool = false
+
+    
     var currentProposal: Session.Proposal?
     
+    var currentRequest: WalletConnectSign.Request?
+    
     var currentSessionInfo: SessionInfo?
+    
+    var currentRequestInfo: RequestInfo?
     
     @Published
     var sessionItems: [ActiveSessionItem] = []
@@ -111,6 +119,7 @@ class ViewModel: ObservableObject {
     
     func reloadPairing() {
         let activePairings: [Pairing] = Sign.instance.getSettledPairings()
+//        Sign.instance.client.pairingEngine.pairingStore
         self.activePairings = activePairings
     }
     
@@ -140,15 +149,16 @@ class ViewModel: ObservableObject {
 //        let accounts = Set(proposal.permissions.blockchains.compactMap { Account($0+":0x123") })
 //        client.approve(proposal: proposal, accounts: accounts)
         
-        let account = "0x123"
+//        let account = "0x123"
+        let account = "0x" + FlowWallet.instance.address.hex
         var sessionNamespaces = [String: SessionNamespace]()
         proposal.requiredNamespaces.forEach {
             let caip2Namespace = $0.key
             let proposalNamespace = $0.value
-            let accounts = Set(proposalNamespace.chains.compactMap { Account($0.absoluteString + ":\(account)") } )
+            let accounts = Set(proposalNamespace.chains.compactMap { WalletConnectSign.Account($0.absoluteString + ":\(account)") } )
             
             let extensions: [SessionNamespace.Extension]? = proposalNamespace.extensions?.map { element in
-                let accounts = Set(element.chains.compactMap { Account($0.absoluteString + ":\(account)") } )
+                let accounts = Set(element.chains.compactMap { WalletConnectSign.Account($0.absoluteString + ":\(account)") } )
                 return SessionNamespace.Extension(accounts: accounts, methods: element.methods, events: element.events)
             }
             let sessionNamespace = SessionNamespace(accounts: accounts, methods: proposalNamespace.methods, events: proposalNamespace.events, extensions: extensions)
@@ -166,6 +176,35 @@ class ViewModel: ObservableObject {
         currentProposal = nil
 //        client.reject(proposal: proposal, reason: .disapprovedChains)
     }
+    
+    func didApproveRequest() {
+        
+        showRequestPopUp = false
+        guard let request = currentRequest, let requestInfo = currentRequestInfo else {
+            return
+        }
+        currentRequest = nil
+
+        do {
+            let address = "0x" + FlowWallet.instance.address.hex
+            let signature = try FlowWallet.instance.sign(message: requestInfo.message)
+            let result = AuthnResponse(fType: "PollingResponse", fVsn: "1.0.0", status: .approved,
+                                       data: AuthnData(addr: address, fType: "CompositeSignature", fVsn: "1.0.0", services: nil, signature: signature),
+                                       reason: nil,
+                                       compositeSignature: nil)
+            let response = JSONRPCResponse<AnyCodable>(id: request.id, result: AnyCodable(result))
+            Sign.instance.respond(topic: request.topic, response: .response(response))
+        } catch {
+            print(error)
+            Sign.instance.respond(topic: request.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+        }
+    }
+    
+    
+    func didRejectRequest() {
+        showRequestPopUp = false
+    }
+    
 }
 
 extension ViewModel {
@@ -215,7 +254,47 @@ extension ViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] sessionRequest in
                 print("[RESPONDER] WC: Did receive session request")
-//                self?.showSessionRequest(sessionRequest)
+                
+                
+                switch sessionRequest.method {
+                case "flow_authn":
+                    let address = "0x" + FlowWallet.instance.address.hex
+                    let keyId = FlowWallet.instance.keyId
+                    let result = AuthnResponse(fType: "PollingResponse", fVsn: "1.0.0", status: .approved,
+                                               data: AuthnData(addr: address, fType: "AuthnResponse", fVsn: "1.0.0",
+                                                               services: [
+                                                                serviceDefinition(address: address, keyId: keyId, type: .authn),
+                                                                serviceDefinition(address: address, keyId: keyId, type: .authz)
+                                                               ]),
+                                               reason: nil,
+                                               compositeSignature: nil)
+                    let response = JSONRPCResponse<AnyCodable>(id: sessionRequest.id, result: AnyCodable(result))
+                    Sign.instance.respond(topic: sessionRequest.topic, response: .response(response))
+                case "flow_authz":
+                    
+                    do {
+                        self?.currentRequest = sessionRequest
+                        let jsonString = try sessionRequest.params.get(String.self)
+                        let data = jsonString.data(using: .utf8)!
+                        let model = try JSONDecoder().decode(Signable.self, from: data)
+
+                        if let session = self?.sessionItems.first{ $0.topic == sessionRequest.topic } {
+                            let request = RequestInfo(cadence: model.cadence ?? "", agrument: model.args, name: session.dappName, descriptionText: session.dappURL, dappURL: session.dappURL, iconURL: session.iconURL, chains: Set(arrayLiteral: sessionRequest.chainId), methods: nil, pendingRequests: [], message: model.message)
+                            self?.currentRequestInfo = request
+                            DispatchQueue.main.async {
+                                self?.showRequestPopUp = true
+                            }
+                        }
+                        
+                    } catch {
+                        print(error)
+                        Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                    }
+                    
+                default:
+                    Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                }
+
             }.store(in: &publishers)
 
         Sign.instance.sessionDeletePublisher
@@ -223,6 +302,20 @@ extension ViewModel {
             .sink { [weak self] sessionRequest in
                 self?.reloadActiveSessions()
 //                self?.navigationController?.popToRootViewController(animated: true)
+            }.store(in: &publishers)
+        
+        Sign.instance.sessionEventPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] sessionRequest in
+                print("[RESPONDER] WC: sessionEventPublisher")
+//                self?.showSessionRequest(sessionRequest)
+            }.store(in: &publishers)
+        
+        Sign.instance.sessionUpdatePublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] sessionRequest in
+                print("[RESPONDER] WC: sessionUpdatePublisher")
+//                self?.showSessionRequest(sessionRequest)
             }.store(in: &publishers)
     }
 }

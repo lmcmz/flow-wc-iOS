@@ -151,145 +151,224 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E02BB5CA-FCC7-4D3B-8D9F-21E8B2EE3289"
+            uuid = "A0D8CA4D-D2EC-4DAD-963C-F182BC1E94C5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WCWallet/WCWallet/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "setUpAuthSubscribing()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "52BC7365-7604-4373-975E-6535EE53BA7F"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "setUpAuthSubscribing()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "400E28B6-97C0-45B6-AD17-A5D543532895"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "setUpAuthSubscribing()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "43DAF0D9-466A-4C5D-B691-2FC452EE77EB"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
-            landmarkName = "setUpAuthSubscribing()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D55A86E7-29D4-429C-9F0C-77A5DDC6B70A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
-            landmarkName = "setUpAuthSubscribing()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1AC1B6FC-E74A-41A7-BF52-08F35F5319A2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "didApproveSession()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "90103F3E-CFE0-4ADC-8358-30A2B917D009"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WCWallet/WCWallet/ViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "reloadActiveSessions()"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "connect()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "90103F3E-CFE0-4ADC-8358-30A2B917D009 - d245479f265b9c87"
+                  uuid = "A0D8CA4D-D2EC-4DAD-963C-F182BC1E94C5 - 1d1962e8f26dcd71"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "WCWallet.ViewModel.reloadActiveSessions() -&gt; ()"
+                  symbolName = "WCWallet.ViewModel.connect() -&gt; ()"
                   moduleName = "WCWallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "106"
-                  endingLineNumber = "106"
-                  offsetFromSymbolStart = "284">
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "524">
                </Location>
                <Location
-                  uuid = "90103F3E-CFE0-4ADC-8358-30A2B917D009 - fffcd275462676f2"
+                  uuid = "A0D8CA4D-D2EC-4DAD-963C-F182BC1E94C5 - 1400cf15fb135e39"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in WCWallet.ViewModel.reloadActiveSessions() -&gt; ()"
+                  symbolName = "closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
                   moduleName = "WCWallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "107"
-                  endingLineNumber = "107"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ACA5A55A-3F10-4D30-BA51-5CC53754B765"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WCWallet/WCWallet/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "connect()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "ACA5A55A-3F10-4D30-BA51-5CC53754B765 - e92f993a19bb1639"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  uuid = "ACA5A55A-3F10-4D30-BA51-5CC53754B765 - f97741f280c1b038"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "524">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A7E592E0-2441-4346-87B9-3816D441D79D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WCWallet/WCWallet/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "connect()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A7E592E0-2441-4346-87B9-3816D441D79D - ca5fc945cf805abf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "A7E592E0-2441-4346-87B9-3816D441D79D - 37bea4ba61f45b17"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "A7E592E0-2441-4346-87B9-3816D441D79D - f97741f280c1b0bc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in WCWallet.ViewModel.connect() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4416F5AC-FA26-4D55-8A67-9676352A2EB0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WCWallet/WCWallet/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "setUpAuthSubscribing()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4416F5AC-FA26-4D55-8A67-9676352A2EB0 - 92a37de738b2abda"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (WalletConnectSign.Session.Proposal) -&gt; () in WCWallet.ViewModel.setUpAuthSubscribing() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "3092">
+               </Location>
+               <Location
+                  uuid = "4416F5AC-FA26-4D55-8A67-9676352A2EB0 - f316789bc72885eb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #2 (WalletConnectSign.Session.Proposal) -&gt; () in WCWallet.ViewModel.setUpAuthSubscribing() -&gt; ()"
+                  moduleName = "WCWallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lmcmz/flow/flow-wc-demo/WCWallet/WCWallet/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "224"
+                  endingLineNumber = "224"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B7D2B15D-F6C1-40E4-821B-B198933E35BE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WCWallet/WCWallet/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "setUpAuthSubscribing()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

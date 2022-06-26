@@ -112,11 +112,23 @@ struct ContentView: View {
             }
             .navigationTitle("Flow x WalletConnect")
         }
-        .sheet(isPresented: $viewModel.showPopUp, onDismiss: nil, content: {
+        .sheet(isPresented: $viewModel.showPopUp, onDismiss: {
+            viewModel.didRejectSession()
+        }, content: {
             ApproveView(session: viewModel.currentSessionInfo!) {
                 viewModel.didApproveSession()
             } reject: {
                 viewModel.didRejectSession()
+            }
+
+        })
+        .sheet(isPresented: $viewModel.showRequestPopUp, onDismiss: {
+            viewModel.didRejectRequest()
+        }, content: {
+            RequestView(request: viewModel.currentRequestInfo!) {
+                viewModel.didApproveRequest()
+            } reject: {
+                viewModel.didRejectRequest()
             }
 
         })

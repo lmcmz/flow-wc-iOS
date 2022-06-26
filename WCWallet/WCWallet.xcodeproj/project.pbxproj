@@ -16,9 +16,11 @@
 		1563667A27CA83D900E19653 /* ScanQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563667927CA83D900E19653 /* ScanQRView.swift */; };
 		1563668327CBA9A100E19653 /* ApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563668227CBA9A100E19653 /* ApproveView.swift */; };
 		1563668527CBB45100E19653 /* RequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563668427CBB45100E19653 /* RequestView.swift */; };
-		1568F4F6284E59A50031A071 /* FlowWalletCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568F4F5284E59A50031A071 /* FlowWalletCore.swift */; };
+		1568F4F6284E59A50031A071 /* FlowWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568F4F5284E59A50031A071 /* FlowWallet.swift */; };
 		1568F4F9284E59CF0031A071 /* Flow in Frameworks */ = {isa = PBXBuildFile; productRef = 1568F4F8284E59CF0031A071 /* Flow */; };
 		1568F4FB284E5C780031A071 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1568F4FA284E5C780031A071 /* Util.swift */; };
+		1596959B285EF16A00208C8D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1596959A285EF16A00208C8D /* Model.swift */; };
+		159E9B042860EA2B00F5078F /* Signable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E9B032860EA2B00F5078F /* Signable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +34,10 @@
 		1563667B27CB58A200E19653 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1563668227CBA9A100E19653 /* ApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveView.swift; sourceTree = "<group>"; };
 		1563668427CBB45100E19653 /* RequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestView.swift; sourceTree = "<group>"; };
-		1568F4F5284E59A50031A071 /* FlowWalletCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowWalletCore.swift; sourceTree = "<group>"; };
+		1568F4F5284E59A50031A071 /* FlowWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowWallet.swift; sourceTree = "<group>"; };
 		1568F4FA284E5C780031A071 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		1596959A285EF16A00208C8D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		159E9B032860EA2B00F5078F /* Signable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +72,11 @@
 		1563664827CA5FFA00E19653 /* WCWallet */ = {
 			isa = PBXGroup;
 			children = (
+				159E9B022860EA2000F5078F /* Model */,
 				1563667B27CB58A200E19653 /* Info.plist */,
 				1563664927CA5FFA00E19653 /* WCWalletApp.swift */,
 				1563667727CA632100E19653 /* ViewModel.swift */,
-				1568F4F5284E59A50031A071 /* FlowWalletCore.swift */,
+				1568F4F5284E59A50031A071 /* FlowWallet.swift */,
 				1568F4FA284E5C780031A071 /* Util.swift */,
 				1563668427CBB45100E19653 /* RequestView.swift */,
 				1563667927CA83D900E19653 /* ScanQRView.swift */,
@@ -79,6 +84,7 @@
 				1563664B27CA5FFA00E19653 /* ContentView.swift */,
 				1563664D27CA5FFA00E19653 /* Assets.xcassets */,
 				1563664F27CA5FFA00E19653 /* Preview Content */,
+				1596959A285EF16A00208C8D /* Model.swift */,
 			);
 			path = WCWallet;
 			sourceTree = "<group>";
@@ -89,6 +95,14 @@
 				1563665027CA5FFA00E19653 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		159E9B022860EA2000F5078F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				159E9B032860EA2B00F5078F /* Signable.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,8 +183,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				159E9B042860EA2B00F5078F /* Signable.swift in Sources */,
+				1596959B285EF16A00208C8D /* Model.swift in Sources */,
 				1563664C27CA5FFA00E19653 /* ContentView.swift in Sources */,
-				1568F4F6284E59A50031A071 /* FlowWalletCore.swift in Sources */,
+				1568F4F6284E59A50031A071 /* FlowWallet.swift in Sources */,
 				1563667827CA632100E19653 /* ViewModel.swift in Sources */,
 				1568F4FB284E5C780031A071 /* Util.swift in Sources */,
 				1563668527CBB45100E19653 /* RequestView.swift in Sources */,

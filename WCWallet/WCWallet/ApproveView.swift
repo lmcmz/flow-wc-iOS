@@ -49,11 +49,20 @@ struct ApproveView: View {
             
             Label("flow", image: "flow-logo")
             
-            Section("Methods") {
-                List(Array(session.methods ?? []), id: \.hashValue) { method in
-                    Text(method).font(.body).foregroundColor(.gray)
+            List {
+                
+                if let chain = session.chains?.first {
+                    Section("Network") {
+                        Text(chain.reference).font(.body).foregroundColor(.gray)
+                    }.headerProminence(.increased)
                 }
-            }.headerProminence(.increased)
+                
+                Section("Methods") {
+                    ForEach(Array(session.methods ?? []), id: \.hashValue) { method in
+                        Text(method).font(.body).foregroundColor(.gray)
+                    }
+                }.headerProminence(.increased)
+            }
             
             Spacer()
             HStack(alignment: .center, spacing: 12) {
@@ -87,14 +96,17 @@ struct ApproveView: View {
 
 struct ApproveView_Previews: PreviewProvider {
     static var previews: some View {
-        ApproveView(session: SessionInfo(name: "Test",
-                                         descriptionText: "descriptionText",
-                                         dappURL: "https://test.com",
-                                         iconURL: "https://github.com/Outblock/Assets/blob/main/blockchain/flow/info/logo.png?raw=true",
-                                         chains: Set([Blockchain("flow")!]),
-                                         methods: ["method_1", "method_2"],
-                                         pendingRequests: [],
-                                        data: ""),
+        
+        let session = SessionInfo(name: "Test",
+                                  descriptionText: "descriptionText",
+                                  dappURL: "https://test.com",
+                                  iconURL: "https://github.com/Outblock/Assets/blob/main/ft/flow/logo.png?raw=true",
+                                  chains: Set([Blockchain("flow:tetsnet")!]),
+                                  methods: ["method_1", "method_2"],
+                                  pendingRequests: ["1321"],
+                                 data: "")
+        
+        ApproveView(session: session,
                     approve: nil,
                     reject: nil
         )
