@@ -146,10 +146,6 @@ class ViewModel: ObservableObject {
             return
         }
         currentProposal = nil
-//        let accounts = Set(proposal.permissions.blockchains.compactMap { Account($0+":0x123") })
-//        client.approve(proposal: proposal, accounts: accounts)
-        
-//        let account = "0x123"
         let account = "0x" + FlowWallet.instance.address.hex
         var sessionNamespaces = [String: SessionNamespace]()
         proposal.requiredNamespaces.forEach {
@@ -174,7 +170,7 @@ class ViewModel: ObservableObject {
             return
         }
         currentProposal = nil
-//        client.reject(proposal: proposal, reason: .disapprovedChains)
+        Sign.instance.reject(proposal: proposal, reason: .disapprovedChains)
     }
     
     func didApproveRequest() {
@@ -203,6 +199,13 @@ class ViewModel: ObservableObject {
     
     func didRejectRequest() {
         showRequestPopUp = false
+        
+        guard let request = currentRequest else {
+            return
+        }
+        let reason = "User reject request"
+        let response = JSONRPCResponse<AnyCodable>(id: 0, result: AnyCodable(reason))
+        Sign.instance.respond(topic: request.topic, response: .response(response))
     }
     
 }
