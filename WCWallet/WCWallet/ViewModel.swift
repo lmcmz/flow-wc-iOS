@@ -126,7 +126,7 @@ class ViewModel: ObservableObject {
     func disconnect(_ sessionItem: ActiveSessionItem) {
         Task {
             do {
-                try await Sign.instance.disconnect(topic: sessionItem.topic, reason: Reason(code: 0, message: "disconnect"))
+                try await Sign.instance.disconnect(topic: sessionItem.topic)
                 guard let index = sessionItems.firstIndex(where: { item in
                     item == sessionItem
                 }) else {
@@ -139,7 +139,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func didApproveSession() {
+    func didApproveSession() async {
         print("[RESPONDER] Approving session...")
         showPopUp = false
         guard let proposal = currentProposal else {
@@ -160,20 +160,28 @@ class ViewModel: ObservableObject {
             let sessionNamespace = SessionNamespace(accounts: accounts, methods: proposalNamespace.methods, events: proposalNamespace.events, extensions: extensions)
             sessionNamespaces[caip2Namespace] = sessionNamespace
         }
-        try! Sign.instance.approve(proposalId: proposal.id, namespaces: sessionNamespaces)
+        do {
+            try await Sign.instance.approve(proposalId: proposal.id, namespaces: sessionNamespaces)
+        } catch {
+            print("[WALLET] Respond Error: \(error.localizedDescription)")
+        }
     }
     
-    func didRejectSession() {
+    func didRejectSession() async {
         print("did reject session")
         showPopUp = false
         guard let proposal = currentProposal else {
             return
         }
         currentProposal = nil
-        Sign.instance.reject(proposal: proposal, reason: .disapprovedChains)
+        do {
+            try await Sign.instance.reject(proposalId: proposal.id, reason: .disapprovedChains)
+        } catch {
+            print("[WALLET] Respond Error: \(error.localizedDescription)")
+        }
     }
     
-    func didApproveRequest() {
+    func didApproveRequest() async {
         
         showRequestPopUp = false
         guard let request = currentRequest, let requestInfo = currentRequestInfo else {
@@ -189,15 +197,22 @@ class ViewModel: ObservableObject {
                                        reason: nil,
                                        compositeSignature: nil)
             let response = JSONRPCResponse<AnyCodable>(id: request.id, result: AnyCodable(result))
-            Sign.instance.respond(topic: request.topic, response: .response(response))
+            try await Sign.instance.respond(topic: request.topic, response: .response(response))
         } catch {
             print(error)
-            Sign.instance.respond(topic: request.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+            Sign.instance.getSettledPairings()
+            
+            do {
+                try await Sign.instance.respond(topic: request.topic, response: .error(.init(id: 0, error: .init(code: 0, message: error.localizedDescription))))
+            } catch {
+                print(error)
+            }
+            
         }
     }
     
     
-    func didRejectRequest() {
+    func didRejectRequest() async {
         showRequestPopUp = false
         
         guard let request = currentRequest else {
@@ -205,7 +220,12 @@ class ViewModel: ObservableObject {
         }
         let reason = "User reject request"
         let response = JSONRPCResponse<AnyCodable>(id: 0, result: AnyCodable(reason))
-        Sign.instance.respond(topic: request.topic, response: .response(response))
+        
+        do {
+            try await Sign.instance.respond(topic: request.topic, response: .response(response))
+        } catch {
+            print("[WALLET] Respond Error: \(error.localizedDescription)")
+        }
     }
     
 }
@@ -272,13 +292,21 @@ extension ViewModel {
                                                reason: nil,
                                                compositeSignature: nil)
                     let response = JSONRPCResponse<AnyCodable>(id: sessionRequest.id, result: AnyCodable(result))
-                    Sign.instance.respond(topic: sessionRequest.topic, response: .response(response))
+                    
+                    Task {
+                        do {
+                            try await Sign.instance.respond(topic: sessionRequest.topic, response: .response(response))
+                        } catch {
+                            print("[WALLET] Respond Error: \(error.localizedDescription)")
+                        }
+                    }
+                    
                 case "flow_authz":
                     
                     do {
                         self?.currentRequest = sessionRequest
-                        let jsonString = try sessionRequest.params.get(String.self)
-                        let data = jsonString.data(using: .utf8)!
+                        let jsonString = try sessionRequest.params.get([String].self)
+                        let data = jsonString[0].data(using: .utf8)!
                         let model = try JSONDecoder().decode(Signable.self, from: data)
 
                         if let session = self?.sessionItems.first{ $0.topic == sessionRequest.topic } {
@@ -291,11 +319,24 @@ extension ViewModel {
                         
                     } catch {
                         print(error)
-                        Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                        
+                        Task {
+                            do {
+                                try await Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                            } catch {
+                                print("[WALLET] Respond Error: \(error.localizedDescription)")
+                            }
+                        }
                     }
                     
                 default:
-                    Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                    Task {
+                        do {
+                            try await Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                        } catch {
+                            print("[WALLET] Respond Error: \(error.localizedDescription)")
+                        }
+                    }
                 }
 
             }.store(in: &publishers)

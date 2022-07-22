@@ -55,7 +55,7 @@ struct RequestView: View {
             
             List {
                 
-                if let args = try? request.agrument.json() {
+                if let args = try? request.agrument.jsonPrettyPrinted() {
                     Section("Argument") {
                         Text(args).font(.body).foregroundColor(.gray)
                     }.headerProminence(.increased)
@@ -112,5 +112,18 @@ struct RequestView_Previews: PreviewProvider {
                     approve: nil,
                     reject: nil
         )
+    }
+}
+
+
+public extension Encodable {
+    func jsonPrettyPrinted() throws -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try encoder.encode(self)
+        guard let string = String(data: data, encoding: .utf8) else {
+            throw FCLError.decodeFailure
+        }
+        return string
     }
 }

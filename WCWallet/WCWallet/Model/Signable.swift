@@ -285,44 +285,30 @@ struct Interaction: Encodable {
                            sequenceNum: account.sequenceNum)
     }
 
-    func createFlowProposalKey() -> Future<Flow.TransactionProposalKey, Error> {
-        return Future { promise in
+    func createFlowProposalKey() async throws -> Flow.TransactionProposalKey {
 
-            guard let proposer = proposer,
-                  var account = accounts[proposer],
-                  let address = account.addr,
-                  let keyID = account.keyID
-            else {
-                promise(.failure(FCLError.invaildProposer))
-                return
-            }
-
-            let flowAddress = Flow.Address(hex: address)
-
-            if account.sequenceNum == nil {
-                flow.accessAPI.getAccountAtLatestBlock(address: flowAddress).whenComplete { result in
-                    switch result {
-                    case let .success(response):
-                        guard let accountData = response else {
-                            promise(.failure(FCLError.fetchAccountFailure))
-                            return
-                        }
-                        account.sequenceNum = accountData.keys[keyID].sequenceNumber
-                        let key = Flow.TransactionProposalKey(address: Flow.Address(hex: address),
-                                                              keyIndex: keyID,
-                                                              sequenceNumber: BigInt(account.sequenceNum ?? 0))
-                        promise(.success(key))
-                    case let .failure(error):
-                        promise(.failure(error))
-                    }
-                }
-            } else {
-                let key = Flow.TransactionProposalKey(address: Flow.Address(hex: address),
-                                                      keyIndex: keyID,
-                                                      sequenceNumber: BigInt(account.sequenceNum ?? 0))
-                promise(.success(key))
-            }
+        guard let proposer = proposer,
+              var account = accounts[proposer],
+              let address = account.addr,
+              let keyID = account.keyID
+        else {
+            throw FCLError.invaildProposer
         }
+
+        let flowAddress = Flow.Address(hex: address)
+
+        if account.sequenceNum == nil {
+            let  accountData = try await flow.accessAPI.getAccountAtLatestBlock(address: flowAddress)
+            account.sequenceNum = Int(accountData.keys[keyID].sequenceNumber)
+            return Flow.TransactionProposalKey(address: Flow.Address(hex: address),
+                                                  keyIndex: keyID,
+                                                  sequenceNumber: Int64(account.sequenceNum ?? 0))
+        }
+        
+        return Flow.TransactionProposalKey(address: Flow.Address(hex: address),
+                                           keyIndex: keyID,
+                                           sequenceNumber: Int64(account.sequenceNum ?? 0))
+        
     }
 
     func buildPreSignable(role: Role) -> PreSignable {

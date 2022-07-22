@@ -7,6 +7,17 @@
 
 import SwiftUI
 import WalletConnectSign
+import WalletConnectRelay
+import Starscream
+
+extension WebSocket: WebSocketConnecting { }
+
+struct SocketFactory: WebSocketFactory {
+    func create(with url: URL) -> WebSocketConnecting {
+        return WebSocket(url: url)
+    }
+}
+
 
 @main
 struct WCWalletApp: App {
@@ -20,7 +31,7 @@ struct WCWalletApp: App {
             description: "wallet description",
             url: "https://lilico.app",
             icons: ["https://github.com/Outblock/Assets/blob/main/blockchain/flow/info/logo.png?raw=true"])
-        Sign.configure(Sign.Config(metadata: metadata, projectId: "b00f6d1baf6e7a6ea324c394932bace2"))
+        Sign.configure(metadata: metadata, projectId: "b00f6d1baf6e7a6ea324c394932bace2", socketFactory: SocketFactory())
         viewModel.setup()
     }
     

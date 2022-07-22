@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15015ADB284D150C00400718 /* WalletConnect in Frameworks */ = {isa = PBXBuildFile; productRef = 15015ADA284D150C00400718 /* WalletConnect */; };
 		1563666427CA601200E19653 /* WCDappApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563666327CA601200E19653 /* WCDappApp.swift */; };
 		1563666627CA601200E19653 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1563666527CA601200E19653 /* ContentView.swift */; };
 		1563666827CA601200E19653 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1563666727CA601200E19653 /* Assets.xcassets */; };
@@ -27,7 +26,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15015ADB284D150C00400718 /* WalletConnect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +84,6 @@
 			);
 			name = WCDapp;
 			packageProductDependencies = (
-				15015ADA284D150C00400718 /* WalletConnect */,
 			);
 			productName = WCDapp;
 			productReference = 1563666027CA601200E19653 /* WCDapp.app */;
@@ -117,7 +114,6 @@
 			);
 			mainGroup = 1563665727CA601200E19653;
 			packageReferences = (
-				15015AD9284D150C00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */,
 			);
 			productRefGroup = 1563666127CA601200E19653 /* Products */;
 			projectDirPath = "";
@@ -349,25 +345,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		15015AD9284D150C00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/WalletConnect/WalletConnectSwiftV2";
-			requirement = {
-				kind = revision;
-				revision = 7ec5c06e5a67371398cda219a0cc9282c6541465;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		15015ADA284D150C00400718 /* WalletConnect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 15015AD9284D150C00400718 /* XCRemoteSwiftPackageReference "WalletConnectSwiftV2" */;
-			productName = WalletConnect;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1563665827CA601200E19653 /* Project object */;
 }
