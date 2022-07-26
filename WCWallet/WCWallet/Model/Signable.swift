@@ -32,6 +32,12 @@ public enum FCLError: String, Error, LocalizedError {
     }
 }
 
+struct SignableMessage: Codable {
+    let addr: String
+//    let data: [String: String]?
+    let message: String
+}
+
 struct Signable: Codable {
     var fType: String = "Signable"
     var fVsn: String = "1.0.1"
@@ -47,7 +53,7 @@ struct Signable: Codable {
     enum CodingKeys: String, CodingKey {
         case fType = "f_type"
         case fVsn = "f_vsn"
-        case roles, data, message, keyId, addr, cadence, args, interaction, voucher
+        case roles, data, message, keyId, addr, cadence, args
     }
     
     init(from decoder: Decoder) throws {
@@ -107,8 +113,8 @@ struct Signable: Codable {
         try container.encode(cadence, forKey: .cadence)
         try container.encode(addr, forKey: .addr)
         try container.encode(args, forKey: .args)
-        try container.encode(interaction, forKey: .interaction)
-        try container.encode(voucher, forKey: .voucher)
+//        try container.encode(interaction, forKey: .interaction)
+//        try container.encode(voucher, forKey: .voucher)
     }
 }
 
@@ -120,7 +126,7 @@ struct PreSignable: Encodable {
     var args: [Flow.Argument] = []
     let data = [String: String]()
     var interaction = Interaction()
-
+    
     var voucher: Voucher {
         let insideSigners: [Singature] = interaction.findInsideSigners.compactMap { id in
             guard let account = interaction.accounts[id] else { return nil }
@@ -170,7 +176,7 @@ struct PreSignable: Encodable {
     }
 }
 
-struct Argument: Encodable {
+struct Argument: Codable {
     var kind: String
     var tempId: String
     var value: Flow.Cadence.FValue
@@ -197,7 +203,7 @@ extension Flow.Argument {
     }
 }
 
-struct Interaction: Encodable {
+struct Interaction: Codable {
     var tag: Tag = .unknown
     var assigns = [String: String]()
     var status: Status = .ok

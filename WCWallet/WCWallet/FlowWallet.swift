@@ -45,6 +45,13 @@ class FlowWallet {
         return data.hexValue
     }
     
+    func signUserMessage(message: String) throws -> String {
+        let signer = ECDSA_P256_Signer(address: address, keyIndex: 0, privateKey: privateKey)
+        let data = try signer.sign(signableData: Flow.DomainTag.user.normalize + Data(message.hexValue))
+        return data.hexValue
+    }
+    
+    
 }
 
 
@@ -73,6 +80,11 @@ func serviceDefinition(address: String, keyId: Int, type: FCLServiceType) -> Ser
         service.endpoint = "flow_authz"
     }
     
+    if type == .userSignature {
+        service.method = .walletConnect
+        service.identity = Identity(address: address, keyId: keyId)
+        service.endpoint = "flow_user_sign"
+    }
     
     return service
 }

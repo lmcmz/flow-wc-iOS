@@ -68,7 +68,7 @@ struct AuthnData: Codable {
     let fType: String?
     let fVsn: String?
     let services: [Service]?
-    let keyId: Int? = nil
+    var keyId: Int? = nil
     var proposer: Service? = nil
     var payer: [Service]? = nil
     var authorization: [Service]? = nil
@@ -107,6 +107,12 @@ public enum FCLServiceType: String, Codable {
     case backChannel = "back-channel-rpc"
     case localView = "local-view"
     case openID = "open-id"
+}
+
+public enum FCLWalletConnectMethod: String, Codable {
+    case authn = "flow_authn"
+    case authz = "flow_authz"
+    case userSignature = "flow_user_sign"
 }
 
 public enum FCLServiceMethod: String, Codable {

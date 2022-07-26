@@ -10,6 +10,7 @@ import SwiftUI
 import WalletConnectUtils
 import WalletConnectSign
 import Combine
+import Flow
 
 struct AuthzRequestModel: Codable {
     let referenceId: String
@@ -52,6 +53,9 @@ class ViewModel: ObservableObject {
     
     @Published
     var showRequestPopUp: Bool = false
+    
+    @Published
+    var showRequestMessagePopUp: Bool = false
 
     
     var currentProposal: Session.Proposal?
@@ -61,6 +65,8 @@ class ViewModel: ObservableObject {
     var currentSessionInfo: SessionInfo?
     
     var currentRequestInfo: RequestInfo?
+    
+    var currentMessageInfo: RequestMessageInfo?
     
     @Published
     var sessionItems: [ActiveSessionItem] = []
@@ -193,14 +199,42 @@ class ViewModel: ObservableObject {
             let address = "0x" + FlowWallet.instance.address.hex
             let signature = try FlowWallet.instance.sign(message: requestInfo.message)
             let result = AuthnResponse(fType: "PollingResponse", fVsn: "1.0.0", status: .approved,
-                                       data: AuthnData(addr: address, fType: "CompositeSignature", fVsn: "1.0.0", services: nil, signature: signature),
+                                       data: AuthnData(addr: address, fType: "CompositeSignature", fVsn: "1.0.0", services: nil, keyId: 0, signature: signature),
                                        reason: nil,
                                        compositeSignature: nil)
             let response = JSONRPCResponse<AnyCodable>(id: request.id, result: AnyCodable(result))
             try await Sign.instance.respond(topic: request.topic, response: .response(response))
         } catch {
             print(error)
-            Sign.instance.getSettledPairings()
+            
+            do {
+                try await Sign.instance.respond(topic: request.topic, response: .error(.init(id: 0, error: .init(code: 0, message: error.localizedDescription))))
+            } catch {
+                print(error)
+            }
+            
+        }
+    }
+    
+    func didMessageApproveRequest() async {
+        
+        showRequestMessagePopUp = false
+        guard let request = currentRequest, let requestInfo = currentMessageInfo else {
+            return
+        }
+        currentMessageInfo = nil
+
+        do {
+            let address = "0x" + FlowWallet.instance.address.hex
+            let signature = try FlowWallet.instance.signUserMessage(message: requestInfo.message)
+            let result = AuthnResponse(fType: "PollingResponse", fVsn: "1.0.0", status: .approved,
+                                       data: AuthnData(addr: address, fType: "CompositeSignature", fVsn: "1.0.0", services: nil, keyId: 0, signature: signature),
+                                       reason: nil,
+                                       compositeSignature: nil)
+            let response = JSONRPCResponse<AnyCodable>(id: request.id, result: AnyCodable(result))
+            try await Sign.instance.respond(topic: request.topic, response: .response(response))
+        } catch {
+            print(error)
             
             do {
                 try await Sign.instance.respond(topic: request.topic, response: .error(.init(id: 0, error: .init(code: 0, message: error.localizedDescription))))
@@ -280,14 +314,15 @@ extension ViewModel {
                 
                 
                 switch sessionRequest.method {
-                case "flow_authn":
+                case FCLWalletConnectMethod.authn.rawValue:
                     let address = "0x" + FlowWallet.instance.address.hex
                     let keyId = FlowWallet.instance.keyId
                     let result = AuthnResponse(fType: "PollingResponse", fVsn: "1.0.0", status: .approved,
                                                data: AuthnData(addr: address, fType: "AuthnResponse", fVsn: "1.0.0",
                                                                services: [
                                                                 serviceDefinition(address: address, keyId: keyId, type: .authn),
-                                                                serviceDefinition(address: address, keyId: keyId, type: .authz)
+                                                                serviceDefinition(address: address, keyId: keyId, type: .authz),
+                                                                serviceDefinition(address: address, keyId: keyId, type: .userSignature)
                                                                ]),
                                                reason: nil,
                                                compositeSignature: nil)
@@ -301,7 +336,7 @@ extension ViewModel {
                         }
                     }
                     
-                case "flow_authz":
+                case FCLWalletConnectMethod.authz.rawValue:
                     
                     do {
                         self?.currentRequest = sessionRequest
@@ -314,6 +349,34 @@ extension ViewModel {
                             self?.currentRequestInfo = request
                             DispatchQueue.main.async {
                                 self?.showRequestPopUp = true
+                            }
+                        }
+                        
+                    } catch {
+                        print(error)
+                        
+                        Task {
+                            do {
+                                try await Sign.instance.respond(topic: sessionRequest.topic, response: .error(.init(id: 0, error: .init(code: 0, message: "NOT Handle"))))
+                            } catch {
+                                print("[WALLET] Respond Error: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    
+                case FCLWalletConnectMethod.userSignature.rawValue:
+                    
+                    do {
+                        self?.currentRequest = sessionRequest
+                        let jsonString = try sessionRequest.params.get([String].self)
+                        let data = jsonString[0].data(using: .utf8)!
+                        let model = try JSONDecoder().decode(SignableMessage.self, from: data)
+
+                        if let session = self?.sessionItems.first{ $0.topic == sessionRequest.topic } {
+                            let request = RequestMessageInfo(name: session.dappName, descriptionText: session.dappURL, dappURL: session.dappURL, iconURL: session.iconURL, chains: Set(arrayLiteral: sessionRequest.chainId), methods: nil, pendingRequests: [], message: model.message)
+                            self?.currentMessageInfo = request
+                            DispatchQueue.main.async {
+                                self?.showRequestMessagePopUp = true
                             }
                         }
                         
@@ -363,77 +426,3 @@ extension ViewModel {
             }.store(in: &publishers)
     }
 }
-
-//extension ViewModel: WalletConnectClientDelegate {
-//
-//    func didSettle(session: Session) {
-//        print("<-- didSettle -->")
-//        reloadActiveSessions()
-//    }
-//
-//    func didUpdate(sessionTopic: String, accounts: Set<Account>) {
-//        print("<-- didUpdate -->")
-////        client.notify(topic: "authn", params: Session.Notification.self, completion: nil)
-//    }
-//
-//    func didDelete(sessionTopic: String, reason: Reason) {
-//        print("<-- didDelete -->")
-//        reloadActiveSessions()
-//    }
-//
-//    func didUpgrade(sessionTopic: String, permissions: Session.Permissions) {
-//        print("<-- didUpgrade -->")
-//    }
-//
-//    func didReceive(sessionRequest: Request) {
-//        print("<-- didReceive -->")
-//
-////        currentProposal = sessionProposal
-////        let appMetadata = sessionProposal.proposer
-//
-//        let json = try! sessionRequest.params.json()
-//
-//        let info = SessionInfo(
-//            name: sessionRequest.method ?? "",
-//            descriptionText: sessionRequest.chainId ?? "",
-//            dappURL: "",
-//            iconURL: "",
-//            chains: [],
-//            methods: [],
-//            pendingRequests: [],
-//            data: json
-//        )
-//        currentSessionInfo = info
-//
-//        DispatchQueue.main.async {
-//            self.showPopUp = true
-//        }
-//
-//        let model = try! sessionRequest.params.get(AuthzRequestModel.self)
-//        let result = AnyCodable(AuthzReponseModel(signature: "0xsignature"))
-//        let response = JSONRPCResponse<AnyCodable>(id: sessionRequest.id, result: result)
-//        client.respond(topic: sessionRequest.topic, response: .response(response))
-//    }
-//
-//    func didReceive(sessionProposal: Session.Proposal) {
-//        print("<-- didReceive sessionProposal -->")
-//        currentProposal = sessionProposal
-//        let appMetadata = sessionProposal.proposer
-//        let info = SessionInfo(
-//            name: appMetadata.name ?? "",
-//            descriptionText: appMetadata.description ?? "",
-//            dappURL: appMetadata.url ?? "",
-//            iconURL: appMetadata.icons?.first ?? "",
-//            chains: Array(sessionProposal.permissions.blockchains),
-//            methods: Array(sessionProposal.permissions.methods),
-//            pendingRequests: [],
-//            data: "")
-//        currentSessionInfo = info
-//
-//        DispatchQueue.main.async {
-//            self.showPopUp = true
-//        }
-//    }
-//
-//
-//}

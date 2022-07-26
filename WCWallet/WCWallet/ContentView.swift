@@ -128,11 +128,11 @@ struct ContentView: View {
             }
 
         })
-        .sheet(isPresented: $viewModel.showRequestPopUp, onDismiss: {
+        .sheet(isPresented: $viewModel.showRequestPopUp) {
             Task {
                 await viewModel.didRejectRequest()
             }
-        }, content: {
+        } content: {
             RequestView(request: viewModel.currentRequestInfo!) {
                 Task {
                     await viewModel.didApproveRequest()
@@ -143,7 +143,23 @@ struct ContentView: View {
                 }
             }
 
-        })
+        }
+        .sheet(isPresented: $viewModel.showRequestMessagePopUp) {
+            Task {
+                await viewModel.didRejectRequest()
+            }
+        } content: {
+            RequestMessageView(request: viewModel.currentMessageInfo!) {
+                Task {
+                    await viewModel.didMessageApproveRequest()
+                }
+            } reject: {
+                Task {
+                    await viewModel.didRejectRequest()
+                }
+            }
+
+        }
         .sheet(isPresented: $showQRScan) {
             isScanned = false
         } content: {
